@@ -46,14 +46,5 @@ class CustomDateSerializer : StdSerializer<Date>(Date::class.java) {
     }
 }
 
-class KeepAsJsonDeserializer : JsonDeserializer<String>() {
-
-    @Throws(IOException::class, JsonProcessingException::class)
-    override fun deserialize(jp: JsonParser, ctxt: DeserializationContext): String {
-        val tree: TreeNode = jp.codec.readTree(jp)
-        return tree.toString()
-    }
-}
-
 internal fun <T> T.toJson(): String = Jackson.getMapper().writeValueAsString(this)
 internal inline fun <reified T> String.fromJson(): T = Jackson.getMapper().readValue(this)
