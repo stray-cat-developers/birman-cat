@@ -1,0 +1,41 @@
+package org.straycats.birmancat.api.common
+
+import io.swagger.v3.oas.annotations.media.Schema
+
+@Schema(name = "Boilerplate.ErrorCode", enumAsRef = true)
+enum class ErrorCode(val summary: String) {
+
+    H000("Human error"),
+
+    HD00("Data not found"),
+    HD01("No results found"),
+    HD02("Data mismatch uri"),
+
+    HA00("Unauthorized"),
+    HA01("Unauthorized Data Relation"),
+
+    HI00("Invalid Input"),
+    HI01("Invalid argument"),
+    HI02("Invalid header argument"),
+
+    P000("policy error"),
+    PC01("checkout error"),
+    PD01("develop mistake error"),
+    PL01("duplicate request"),
+
+    S000("common system error"),
+    SA00("async execute error"),
+    SI01("illegal state error"),
+    SD01("database access error"),
+
+    C000("communication error"),
+    CT01("connection timeout"),
+    CT02("read timeout"),
+    CT03("response error"),
+
+    ;
+
+    override fun toString(): String {
+        return "${this.name}::${this.summary}"
+    }
+}
