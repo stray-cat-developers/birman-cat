@@ -1,7 +1,6 @@
 package org.straycats.birmancat.api.config
 
 import com.asarkar.spring.test.redis.AutoConfigureEmbeddedRedis
-import com.asarkar.spring.test.redis.EmbeddedRedisAutoConfiguration
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
@@ -18,11 +17,11 @@ import org.straycats.birmancat.BirmanCatApplication
 @ExtendWith(SpringExtension::class)
 @ComponentScan(nameGenerator = FullyQualifiedAnnotationBeanNameGenerator::class)
 @SpringBootTest(classes = [BirmanCatApplication::class], webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ContextConfiguration(classes = [EmbeddedRedisAutoConfiguration::class, DefaultEmbeddedRedis::class])
+@ContextConfiguration(classes = [DefaultEmbeddedRedis::class, CustomEmbeddedRedisAutoConfiguration::class])
 @AutoConfigureMockMvc
-@AutoConfigureEmbeddedRedis(port = 23425)
+@AutoConfigureEmbeddedRedis(port = 4310)
 class FlowTestSupport {
 
     @Autowired
-    final lateinit var mockMvc: MockMvc
+    lateinit var mockMvc: MockMvc
 }

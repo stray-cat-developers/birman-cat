@@ -21,9 +21,9 @@ import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.context.request.ServletWebRequest
-import org.straycats.birmancat.api.common.Error
 import org.straycats.birmancat.api.common.ErrorCode
 import org.straycats.birmancat.api.common.ErrorSource
+import org.straycats.birmancat.api.common.NormalError
 import org.straycats.birmancat.utils.Jackson
 
 @ControllerAdvice(annotations = [RestController::class])
@@ -40,14 +40,14 @@ class ExceptionConfiguration(
     @ResponseBody
     fun handleGlobalException(e: RuntimeException, request: HttpServletRequest): GlobalErrorFormat {
         log.error("Unexpected error", e)
-        return errorForm(request, e, Error(ErrorCode.S000, "Oops, something went wrong."))
+        return errorForm(request, e, NormalError(ErrorCode.S000, "Oops, something went wrong."))
     }
 
     @ExceptionHandler(value = [InvalidDataAccessApiUsageException::class])
     @ResponseStatus(INTERNAL_SERVER_ERROR)
     @ResponseBody
     fun handleInvalidDataAccessApiUsageException(e: InvalidDataAccessApiUsageException, request: HttpServletRequest): GlobalErrorFormat {
-        return errorForm(request, e, Error(ErrorCode.SD01, e.message!!))
+        return errorForm(request, e, NormalError(ErrorCode.SD01, e.message!!))
     }
 
     /**
@@ -57,7 +57,7 @@ class ExceptionConfiguration(
     @ResponseStatus(INTERNAL_SERVER_ERROR)
     @ResponseBody
     fun handleIllegalStateException(e: IllegalStateException, request: HttpServletRequest): GlobalErrorFormat {
-        return errorForm(request, e, Error(ErrorCode.P000, "Oops, something went wrong."))
+        return errorForm(request, e, NormalError(ErrorCode.P000, "Oops, something went wrong."))
     }
 
     /**
@@ -78,7 +78,7 @@ class ExceptionConfiguration(
     @ResponseBody
     fun handleIllegalArgumentException(e: IllegalArgumentException, request: HttpServletRequest): GlobalErrorFormat {
         log.error("[T] wrong input.", e)
-        return errorForm(request, e, Error(ErrorCode.HI01, "Invalid input"))
+        return errorForm(request, e, NormalError(ErrorCode.HI01, "Invalid input"))
     }
 
     @ExceptionHandler(value = [MethodArgumentNotValidException::class])
@@ -91,7 +91,7 @@ class ExceptionConfiguration(
         return errorForm(
             request,
             e,
-            Error(
+            NormalError(
                 ErrorCode.HI00,
                 e.bindingResult.fieldError?.defaultMessage ?: run {
                     ErrorCode.HI00.summary

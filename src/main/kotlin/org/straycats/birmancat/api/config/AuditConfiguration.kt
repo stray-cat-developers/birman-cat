@@ -6,7 +6,7 @@ import org.springframework.data.domain.AuditorAware
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing
 import org.springframework.web.context.request.RequestContextHolder
 import org.springframework.web.context.request.ServletRequestAttributes
-import org.straycats.birmancat.api.permission.RoleHeader
+import org.straycats.birmancat.api.domain.sign.signin.session.SignInSession
 import java.util.Optional
 
 @Configuration
@@ -14,28 +14,35 @@ import java.util.Optional
 class AuditConfiguration {
 
     @Bean
-    internal fun auditorAware(): AuditorAware<*> {
-        return AuditorAwareImpl()
+    internal fun auditorAware(
+        appEnvironment: AppEnvironment,
+    ): AuditorAware<*> {
+        val cryptoKey = appEnvironment.signIn.sessionCryptoKey
+        return AuditorAwareImpl(cryptoKey)
     }
 }
 
-class AuditorAwareImpl : AuditorAware<String> {
+class AuditorAwareImpl(
+    private val sessionCryptoKey: String,
+) : AuditorAware<String> {
     override fun getCurrentAuditor(): Optional<String> {
-        var auditor = unknownAuditor
+        var auditor = "S:unknown"
 
         if (RequestContextHolder.getRequestAttributes() != null) {
             val request = (RequestContextHolder.getRequestAttributes() as ServletRequestAttributes).request
 
-            val adminId = request.getHeader(RoleHeader.XAdmin.KEY)
-            val partnerId = request.getHeader(RoleHeader.XPartner.KEY)
-            val userId = request.getHeader(RoleHeader.XUser.KEY)
+            if (request.getSession(false) == null) {
+                return Optional.of("S:no-session")
+            }
 
-            auditor = adminId?.let { "A:".plus(it) } ?: partnerId?.let { "P:".plus(it) } ?: userId?.let { "U:".plus(it) } ?: unknownAuditor
+            val signInSession = SignInSession(sessionCryptoKey)
+
+            if (signInSession.isSignIn().not()) {
+                return Optional.of("S:no-sign")
+            }
+
+            auditor = signInSession.getAccountPayload().id.toString()
         }
-        return Optional.of(auditor)
-    }
-
-    companion object {
-        const val unknownAuditor = "S:unknown"
+        return Optional.of("A:$auditor")
     }
 }

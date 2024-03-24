@@ -12,7 +12,7 @@ import java.time.LocalDateTime
 
 @MappedSuperclass
 @EntityListeners(value = [AuditingEntityListener::class])
-class Audit {
+open class Audit {
 
     @CreatedBy
     @LastModifiedBy

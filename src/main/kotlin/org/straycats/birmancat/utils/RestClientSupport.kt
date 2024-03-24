@@ -15,8 +15,8 @@ import org.apache.hc.core5.http.io.entity.StringEntity
 import org.apache.hc.core5.http.message.BasicNameValuePair
 import org.slf4j.Logger
 import org.springframework.http.HttpStatus
-import org.straycats.birmancat.api.common.Error
 import org.straycats.birmancat.api.common.ErrorCode
+import org.straycats.birmancat.api.common.NormalError
 import org.straycats.birmancat.api.config.CommunicationException
 import org.straycats.birmancat.api.config.GlobalErrorFormat
 import java.nio.charset.Charset
@@ -135,11 +135,11 @@ open class RestClientSupport(
 
         if (this.isOK().not()) {
             val error = if (response.isNullOrEmpty()) {
-                Error(ErrorCode.CT03, this.reasonPhrase)
+                NormalError(ErrorCode.CT03, this.reasonPhrase)
             } else {
                 try {
                     val globalErrorFormat = objectMapper.readValue<GlobalErrorFormat>(response)
-                    Error(ErrorCode.C000, globalErrorFormat.message).apply {
+                    NormalError(ErrorCode.C000, globalErrorFormat.message).apply {
                         refCode = globalErrorFormat.refCode
                         causeBy = mapOf(
                             "type" to globalErrorFormat.type,
@@ -147,7 +147,7 @@ open class RestClientSupport(
                         )
                     }
                 } catch (ex: Exception) {
-                    Error(ErrorCode.CT03, response)
+                    NormalError(ErrorCode.CT03, response)
                 }
             }
 
@@ -163,10 +163,10 @@ open class RestClientSupport(
 
         if (this.isOK().not()) {
             val error = if (response.isNullOrEmpty()) {
-                Error(ErrorCode.C000, this.reasonPhrase)
+                NormalError(ErrorCode.C000, this.reasonPhrase)
             } else {
                 val externalError = objectMapper.readValue(response, clazz)
-                Error(ErrorCode.C000, externalError.message).apply {
+                NormalError(ErrorCode.C000, externalError.message).apply {
                     refCode = externalError.code
                 }
             }

@@ -188,6 +188,8 @@ private object PrivacyLogFilter {
     private const val NUMBER_PATTERN = "\"%s\"\\s*:\\s*([0-9]+)"
     private val privacyTargetPatterns = listOf(
         STRING_PATTERN.format("password").toRegex(),
+        STRING_PATTERN.format("beforePassword").toRegex(),
+        STRING_PATTERN.format("afterPassword").toRegex(),
         STRING_PATTERN.format("email").toRegex(),
         STRING_PATTERN.format("phone").toRegex(),
         NUMBER_PATTERN.format("userId").toRegex(),

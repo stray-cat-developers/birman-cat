@@ -1,10 +1,11 @@
 package org.straycats.birmancat.api.common
 
-class Error(
+class NormalError(
     errorCode: ErrorCode,
-    override val message: String,
+    message: String? = null,
     override var causeBy: Map<String, Any?>? = null,
 ) : ErrorSource {
+    override val message = message ?: errorCode.summary
     override val code = errorCode.name
     override var refCode: String? = null
 }

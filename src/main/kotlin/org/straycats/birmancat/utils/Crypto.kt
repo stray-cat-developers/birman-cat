@@ -1,5 +1,6 @@
 package org.straycats.birmancat.utils
 
+import java.security.MessageDigest
 import java.util.Base64
 import javax.crypto.Cipher
 import javax.crypto.spec.IvParameterSpec
@@ -30,5 +31,14 @@ class Crypto(
         val decryptedText = String(cipher.doFinal(cipherText), Charsets.UTF_8)
 
         return jackson.readValue(decryptedText, valueType)
+    }
+
+    companion object {
+        fun sha256(value: String): String {
+            val bytes = value.toByteArray()
+            val md = MessageDigest.getInstance("SHA-512")
+            val digest = md.digest(bytes)
+            return digest.fold("") { str, it -> str + "%02x".format(it) }
+        }
     }
 }

@@ -3,7 +3,7 @@ logging:
     org.springframework.web.filter.CommonsRequestLoggingFilter: debug
     org.springframework.boot.actuate: off
     org.springframework.web: debug
-    org.springframework.boot: info
+    org.springframework.boot: trace
     org.springframework.orm.jpa: debug
     org.springframework.transaction: debug
     org.hibernate.SQL: debug
@@ -52,6 +52,17 @@ spring:
             audit_strategy: org.hibernate.envers.strategy.DefaultAuditStrategy
     database-platform: org.hibernate.dialect.H2Dialect
     open-in-view: false
+  data:
+    redis:
+      timeout: 5s
+      cluster:
+        nodes: 127.0.0.1:4310
+        max-redirects: 1
+      lettuce:
+        cluster:
+          refresh:
+            period: 30s
+
 springdoc:
   show-actuator: false
   swagger-ui:
@@ -61,5 +72,13 @@ spring:
   config:
     activate:
       on-profile: embedded
-embedded-redis:
-  port: 23425
+
+
+app:
+  slack:
+    host: https://localhost
+    token: ''
+  sign-in:
+    limit-fail-count: 2
+    account-idle-day: 1
+    session-crypto-key: WobiRExyJudLP8FMs2viJh1rpP1jK4r0

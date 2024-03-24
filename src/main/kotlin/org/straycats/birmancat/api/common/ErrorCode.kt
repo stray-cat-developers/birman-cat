@@ -13,15 +13,18 @@ enum class ErrorCode(val summary: String) {
 
     HA00("Unauthorized"),
     HA01("Unauthorized Data Relation"),
+    HA02("Password is incorrect"),
 
     HI00("Invalid Input"),
     HI01("Invalid argument"),
     HI02("Invalid header argument"),
 
     P000("policy error"),
-    PC01("checkout error"),
+    P002("password rule"),
     PD01("develop mistake error"),
+    PD02("Audit Fail. This feature is only available when you can log in. Please check the policy."),
     PL01("duplicate request"),
+    PL02("Contact the Supervisor"),
 
     S000("common system error"),
     SA00("async execute error"),
@@ -32,6 +35,10 @@ enum class ErrorCode(val summary: String) {
     CT01("connection timeout"),
     CT02("read timeout"),
     CT03("response error"),
+
+    FS00("front sync error"),
+    FS01("change password"),
+    FS02("must sign in"),
 
     ;
 

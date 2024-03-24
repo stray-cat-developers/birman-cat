@@ -1,8 +1,8 @@
 package org.straycats.birmancat.api.config
 
-import org.straycats.birmancat.api.common.Error
 import org.straycats.birmancat.api.common.ErrorCode
 import org.straycats.birmancat.api.common.ErrorSource
+import org.straycats.birmancat.api.common.NormalError
 
 open class CustomException(val error: ErrorSource) : RuntimeException(error.message)
 
@@ -11,33 +11,33 @@ open class CustomException(val error: ErrorSource) : RuntimeException(error.mess
  */
 open class HumanException(error: ErrorSource) : CustomException(error)
 class DataNotFindException : HumanException {
-    constructor(message: String) : super(Error(ErrorCode.HD00, message))
-    constructor(id: String, message: String) : super(Error(ErrorCode.HD00, message, mapOf("id" to id)))
+    constructor(message: String) : super(NormalError(ErrorCode.HD00, message))
+    constructor(id: String, message: String) : super(NormalError(ErrorCode.HD00, message, mapOf("id" to id)))
     constructor(id: Long, message: String) : this(id.toString(), message)
 }
 
-class PreconditionFailException(message: String) : HumanException(Error(ErrorCode.HD02, message))
+class PreconditionFailException(message: String) : HumanException(NormalError(ErrorCode.HD02, message))
 
 // ignore in sentry
 class DataNotSearchedException : HumanException {
-    constructor(message: String) : super(Error(ErrorCode.HD01, message))
-    constructor(source: String, message: String) : super(Error(ErrorCode.HD01, message, mapOf("search source" to source)))
+    constructor(message: String) : super(NormalError(ErrorCode.HD01, message))
+    constructor(source: String, message: String) : super(NormalError(ErrorCode.HD01, message, mapOf("search source" to source)))
     constructor(id: Long, message: String) : this(id.toString(), message)
 }
 
-class MissingRequestXHeaderException(headerName: String) : HumanException(Error(ErrorCode.HI02, "Missing request header $headerName"))
+class MissingRequestXHeaderException(headerName: String) : HumanException(NormalError(ErrorCode.HI02, "Missing request header $headerName"))
 
-class InvalidArgumentException(message: String) : HumanException(Error(ErrorCode.HI01, message))
+class InvalidArgumentException(message: String) : HumanException(NormalError(ErrorCode.HI01, message))
 
 open class SystemException(error: ErrorSource) : CustomException(error)
 class DevelopMistakeException : SystemException {
-    constructor(errorCode: ErrorCode) : super(Error(errorCode, errorCode.summary))
-    constructor(message: String, causeBy: Map<String, Any?>? = null) : super(Error(ErrorCode.PD01, message, causeBy))
+    constructor(errorCode: ErrorCode) : super(NormalError(errorCode, errorCode.summary))
+    constructor(message: String, causeBy: Map<String, Any?>? = null) : super(NormalError(ErrorCode.PD01, message, causeBy))
 }
 
 open class CommunicationException(error: ErrorSource) : CustomException(error)
 class ClientException(target: String, message: String, code: String? = null) : CommunicationException(
-    Error(
+    NormalError(
         ErrorCode.C000,
         message,
         causeBy = mapOf(
@@ -49,7 +49,7 @@ class ClientException(target: String, message: String, code: String? = null) : C
     },
 )
 class ConnectionTimeoutException(target: String, timeoutConfig: Int, url: String) : CommunicationException(
-    Error(
+    NormalError(
         ErrorCode.CT01,
         "$target Connection fail",
         causeBy = mapOf(
@@ -61,7 +61,7 @@ class ConnectionTimeoutException(target: String, timeoutConfig: Int, url: String
 )
 
 class ReadTimeoutException(target: String, timeoutConfig: Int, url: String) : CommunicationException(
-    Error(
+    NormalError(
         ErrorCode.CT02,
         "$target Data not Received",
         causeBy = mapOf(
@@ -73,7 +73,7 @@ class ReadTimeoutException(target: String, timeoutConfig: Int, url: String) : Co
 )
 
 open class AsyncException(message: String, causeBy: Map<String, Any?>? = null) : CustomException(
-    Error(
+    NormalError(
         ErrorCode.SA00,
         message,
         causeBy,
@@ -91,8 +91,8 @@ open class PolicyException(error: ErrorSource) : CustomException(error)
 open class UnAuthorizedException(error: ErrorSource) : CustomException(error)
 
 class PermissionException : UnAuthorizedException {
-    constructor() : super(Error(ErrorCode.HA00, "Access denied"))
-    constructor(message: String) : super(Error(ErrorCode.HA01, message))
+    constructor() : super(NormalError(ErrorCode.HA00, "Access denied"))
+    constructor(message: String) : super(NormalError(ErrorCode.HA01, message))
 }
 
-class AccessDeniedException : UnAuthorizedException(Error(ErrorCode.HA00, "Unauthorized"))
+class AccessDeniedException : UnAuthorizedException(NormalError(ErrorCode.HA00, "Unauthorized"))

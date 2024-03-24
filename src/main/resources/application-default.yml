@@ -13,7 +13,7 @@ logging:
     io.swagger.models.parameters.AbstractSerializableParameter: error
     org.mongodb.driver.protocol.command: debug
     org.springframework.data.redis: debug
-    org.straycats.birmancat: debug
+    org.straycats.birmancat: trace
 
 server:
   error:
@@ -62,7 +62,6 @@ spring:
         cluster:
           refresh:
             period: 30s
-
 springdoc:
   show-actuator: false
   swagger-ui:
@@ -73,3 +72,7 @@ app:
   slack:
     host: https://localhost
     token: ''
+  sign-in:
+    limit-fail-count: 2
+    account-idle-day: 1
+    session-crypto-key: qzd2rcur8pcCXjPprlzwBRwVV4En5alW
