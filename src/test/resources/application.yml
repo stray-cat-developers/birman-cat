@@ -39,7 +39,8 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create
-      use-new-id-generator-mappings: false
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     properties:
       hibernate:
         format_sql: false
@@ -51,7 +52,7 @@ spring:
           envers:
             audit_strategy: org.hibernate.envers.strategy.DefaultAuditStrategy
     database-platform: org.hibernate.dialect.H2Dialect
-    open-in-view: false
+    open-in-view: true
   data:
     redis:
       timeout: 5s
