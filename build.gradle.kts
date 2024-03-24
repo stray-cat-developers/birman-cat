@@ -32,11 +32,13 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web:3.2.3")
     implementation("org.springframework.boot:spring-boot-starter-webflux:3.2.3")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa:3.2.3")
+    implementation("org.springframework.data:spring-data-envers:3.2.3")
     implementation("org.springframework.boot:spring-boot-starter-data-redis:3.2.3")
     implementation("org.springframework.boot:spring-boot-starter-validation:3.2.3")
     implementation("org.springframework.boot:spring-boot-starter-undertow:3.2.3") {
         exclude("io.undertow", "undertow-websockets-jsr")
     }
+    implementation("org.springframework.session:spring-session-data-redis")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test:3.2.3") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
@@ -65,7 +67,8 @@ dependencies {
     }
 
     implementation("org.apache.httpcomponents.client5:httpclient5:5.1.4")
-    implementation("org.yaml:snakeyaml:2.0")
+    implementation("com.github.spullara.mustache.java:compiler:0.9.11")
+
 
 }
 

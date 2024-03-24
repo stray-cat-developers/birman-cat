@@ -31,7 +31,7 @@ out/
 
 HELP.md
 .gradle
-build/
+build/w
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**
 !**/src/test/**
