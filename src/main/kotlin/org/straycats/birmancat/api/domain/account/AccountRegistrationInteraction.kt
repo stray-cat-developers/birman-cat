@@ -15,7 +15,6 @@ class AccountRegistrationInteraction(
     private val resourceLoader: ResourceLoader,
     private val appEnvironment: AppEnvironment,
     private val accountRepository: AccountRepository,
-    private val accountFinder: AccountFinder,
 ) {
 
     fun signUpByRandomPassword(request: AccountResources.Request.TakeOverSignUp): Long {
