@@ -21,7 +21,7 @@ class PWSignIn(
         }
 
         account.validateFailCountOrThrow(environment.signIn.limitFailCount)
-        account.validateNotLoginTerm(environment.signIn.accountIdleDay)
+        account.validateNotLoginTermOrThrow(environment.signIn.accountIdleDay)
     }
 
     fun match(password: String): Boolean {

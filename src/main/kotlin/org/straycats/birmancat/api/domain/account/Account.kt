@@ -62,7 +62,7 @@ class Account(
         }
     }
 
-    fun validateNotLoginTerm(day: Long) {
+    fun validateNotLoginTermOrThrow(day: Long) {
         val standard = LocalDateTime.now().minusDays(day)
         val calculated = ChronoUnit.DAYS.between(standard, lastAccess)
 
