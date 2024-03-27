@@ -1,6 +1,5 @@
 package org.straycats.birmancat.api.domain.sign.signin
 
-import org.slf4j.LoggerFactory
 import org.straycats.birmancat.api.common.ErrorCode
 import org.straycats.birmancat.api.common.NormalError
 import org.straycats.birmancat.api.config.AppEnvironment
