@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.servlet.config.annotation.DelegatingWebMvcConfiguration
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry
 import org.straycats.birmancat.api.lock.UserLockInterceptor
+import org.straycats.birmancat.api.permission.AuthorizationFilter
 import org.straycats.birmancat.api.scope.BlockCertainProfileInterceptor
 import org.straycats.birmancat.utils.Jackson
 import java.time.format.DateTimeFormatter
@@ -22,6 +23,7 @@ import java.time.format.DateTimeFormatter
 class WebConfiguration(
     private val userLockInterceptor: UserLockInterceptor,
     private val blockCertainProfileInterceptor: BlockCertainProfileInterceptor,
+    private val appEnvironment: AppEnvironment,
 ) : DelegatingWebMvcConfiguration() {
 
     override fun addInterceptors(registry: InterceptorRegistry) {
@@ -42,6 +44,13 @@ class WebConfiguration(
     fun requestResponseLogFilter(): FilterRegistrationBean<RequestResponseLogFilter> {
         return FilterRegistrationBean<RequestResponseLogFilter>().apply {
             filter = RequestResponseLogFilter()
+        }
+    }
+
+    @Bean
+    fun authorizationFilter(): FilterRegistrationBean<AuthorizationFilter> {
+        return FilterRegistrationBean<AuthorizationFilter>().apply {
+            filter = AuthorizationFilter(appEnvironment.signIn.sessionCryptoKey)
         }
     }
 

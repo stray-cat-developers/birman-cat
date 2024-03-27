@@ -1,5 +1,6 @@
 package org.straycats.birmancat.api.domain.account.api
 
+import jakarta.servlet.http.Cookie
 import org.springframework.hateoas.server.mvc.linkTo
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
@@ -11,6 +12,7 @@ import org.straycats.birmancat.utils.toJson
 
 class AccountMaintenanceControllerFlow(
     private val mockMvc: MockMvc,
+    private val sessionCookie: Cookie,
 ) {
 
     fun registerWithOutPassword(email: String): Long {
@@ -27,6 +29,7 @@ class AccountMaintenanceControllerFlow(
         return mockMvc.post(uri) {
             contentType = MediaType.APPLICATION_JSON
             content = request.toJson()
+            cookie(sessionCookie)
         }.andExpect {
             status { is2xxSuccessful() }
         }.andReturn()
@@ -41,6 +44,7 @@ class AccountMaintenanceControllerFlow(
 
         mockMvc.post(uri) {
             contentType = MediaType.APPLICATION_JSON
+            cookie(sessionCookie)
         }.andExpect {
             status { is2xxSuccessful() }
         }
