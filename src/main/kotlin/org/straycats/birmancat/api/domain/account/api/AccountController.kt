@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.servlet.http.HttpSession
 import org.springframework.web.bind.annotation.CookieValue
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -46,6 +47,18 @@ class AccountController(
         @RequestBody request: AccountResources.Modify.SelfModify,
     ): Reply<Unit> {
         accountSelfHandleInteraction.modify(request)
+        return Unit.toReply()
+    }
+
+    @Operation(summary = "refresh session")
+    @PostMapping("/refresh-session")
+    fun refresh(
+        @Parameter(hidden = true)
+        @CookieValue(name = "SESSION")
+        sessionId: String,
+        @Parameter(hidden = true)
+        session: HttpSession,
+    ): Reply<Unit> {
         return Unit.toReply()
     }
 }
