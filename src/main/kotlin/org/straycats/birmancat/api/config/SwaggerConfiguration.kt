@@ -43,7 +43,6 @@ class SwaggerConfiguration {
         .pathsToExclude(
             "/v1/maintenance/**",
             "/v1/migration/**",
-            "/v1/bridge/**",
             "/v1/batch/**",
             "/v1/gateway/**",
             "/v1/open-api/**",
@@ -69,16 +68,6 @@ class SwaggerConfiguration {
         }
         .packagesToScan("org.straycats.birmancat.api.domain")
         .pathsToMatch("/v1/migration/**")
-        .build()
-
-    @Bean
-    fun bridge(): GroupedOpenApi = GroupedOpenApi.builder()
-        .group("Bridge")
-        .addOpenApiCustomizer {
-            it.info.version("v1")
-        }
-        .packagesToScan("org.straycats.birmancat.api.domain")
-        .pathsToMatch("/v1/bridge/**")
         .build()
 
     @Bean

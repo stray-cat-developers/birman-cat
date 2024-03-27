@@ -14,6 +14,7 @@ enum class ErrorCode(val summary: String) {
     HA00("Unauthorized"),
     HA01("Unauthorized Data Relation"),
     HA02("Password is incorrect"),
+    HA03("access denied for user"),
 
     HI00("Invalid Input"),
     HI01("Invalid argument"),

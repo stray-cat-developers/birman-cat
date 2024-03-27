@@ -13,10 +13,19 @@ import org.straycats.birmancat.utils.Crypto
 /**
  * If a session does not exist, create it.
  */
-class SignInSession(
-    private val cryptoKey: String,
-) {
-    private val httpSession: HttpSession = (RequestContextHolder.getRequestAttributes() as ServletRequestAttributes?)!!.request.session
+class SignInSession {
+    private val cryptoKey: String
+    private val httpSession: HttpSession
+
+    constructor(cryptoKey: String) {
+        this.cryptoKey = cryptoKey
+        this.httpSession = (RequestContextHolder.getRequestAttributes() as ServletRequestAttributes?)!!.request.session
+    }
+
+    constructor(cryptoKey: String, httpSession: HttpSession) {
+        this.cryptoKey = cryptoKey
+        this.httpSession = httpSession
+    }
 
     fun isSignIn(): Boolean {
         val result = runCatching {
