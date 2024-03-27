@@ -1,6 +1,5 @@
 package org.straycats.birmancat.api.domain.sign.signin
 
-import org.slf4j.LoggerFactory
 import org.straycats.birmancat.api.common.ErrorCode
 import org.straycats.birmancat.api.common.NormalError
 import org.straycats.birmancat.api.config.AppEnvironment
@@ -12,7 +11,6 @@ class PWSignIn(
     private val account: Account,
     private val environment: AppEnvironment,
 ) {
-    private val log = LoggerFactory.getLogger(this::class.java)
     fun validateOrThrow() {
         when (account.status) {
             Account.Status.HOLD -> throw HumanException(NormalError(ErrorCode.PL02, "Your account has been temporarily disabled."))
@@ -21,7 +19,7 @@ class PWSignIn(
         }
 
         account.validateFailCountOrThrow(environment.signIn.limitFailCount)
-        account.validateNotLoginTerm(environment.signIn.accountIdleDay)
+        account.validateNotLoginTermOrThrow(environment.signIn.accountIdleDay)
     }
 
     fun match(password: String): Boolean {

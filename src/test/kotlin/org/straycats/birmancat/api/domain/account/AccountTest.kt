@@ -19,7 +19,7 @@ class AccountTest {
         // Then
 
         assertThrows(PolicyException::class.java) {
-            account.validateNotLoginTerm(10)
+            account.validateNotLoginTermOrThrow(10)
         }
     }
 }
