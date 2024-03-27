@@ -12,7 +12,6 @@ class PWSignIn(
     private val account: Account,
     private val environment: AppEnvironment,
 ) {
-    private val log = LoggerFactory.getLogger(this::class.java)
     fun validateOrThrow() {
         when (account.status) {
             Account.Status.HOLD -> throw HumanException(NormalError(ErrorCode.PL02, "Your account has been temporarily disabled."))
