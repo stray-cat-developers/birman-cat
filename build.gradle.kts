@@ -1,8 +1,8 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.springframework.boot") version "3.2.3"
-    id("io.spring.dependency-management") version "1.1.3"
+    id("org.springframework.boot") version "3.2.4"
+    id("io.spring.dependency-management") version "1.1.4"
     id("org.jmailen.kotlinter") version "3.14.0"
     id("com.avast.gradle.docker-compose") version "0.17.6"
     kotlin("jvm") version "1.9.21"
@@ -14,7 +14,7 @@ plugins {
 }
 
 group = "org.straycats.birmancat"
-version = "1.0-SNAPSHOT"
+version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_21
 
 repositories {
@@ -28,24 +28,24 @@ dependencies {
     implementation(kotlin("stdlib:1.9.21"))
     implementation(kotlin("reflect:1.9.21"))
 
-    implementation("org.springframework.boot:spring-boot-starter-actuator:3.2.3")
-    implementation("org.springframework.boot:spring-boot-starter-web:3.2.3")
-    implementation("org.springframework.boot:spring-boot-starter-webflux:3.2.3")
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa:3.2.3")
-    implementation("org.springframework.data:spring-data-envers:3.2.3")
-    implementation("org.springframework.boot:spring-boot-starter-data-redis:3.2.3")
-    implementation("org.springframework.boot:spring-boot-starter-validation:3.2.3")
-    implementation("org.springframework.boot:spring-boot-starter-undertow:3.2.3") {
+    implementation("org.springframework.boot:spring-boot-starter-actuator:3.2.4")
+    implementation("org.springframework.boot:spring-boot-starter-web:3.2.4")
+    implementation("org.springframework.boot:spring-boot-starter-webflux:3.2.4")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa:3.2.4")
+    implementation("org.springframework.data:spring-data-envers:3.2.4")
+    implementation("org.springframework.boot:spring-boot-starter-data-redis:3.2.4")
+    implementation("org.springframework.boot:spring-boot-starter-validation:3.2.4")
+    implementation("org.springframework.boot:spring-boot-starter-undertow:3.2.4") {
         exclude("io.undertow", "undertow-websockets-jsr")
     }
     implementation("org.springframework.session:spring-session-data-redis")
 
-    testImplementation("org.springframework.boot:spring-boot-starter-test:3.2.3") {
+    testImplementation("org.springframework.boot:spring-boot-starter-test:3.2.4") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
         exclude(group = "junit", module = "junit")
     }
-    testImplementation("org.springframework.boot:spring-boot-starter-hateoas:3.2.3")
-    kapt("org.springframework.boot:spring-boot-configuration-processor:3.2.3")
+    testImplementation("org.springframework.boot:spring-boot-starter-hateoas:3.2.4")
+    kapt("org.springframework.boot:spring-boot-configuration-processor:3.2.4")
 
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.15.2")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.15.2")
@@ -108,4 +108,8 @@ tasks.getByName<Test>("test") {
             }
         }
     })
+}
+
+tasks.register("version") {
+    println(version)
 }
