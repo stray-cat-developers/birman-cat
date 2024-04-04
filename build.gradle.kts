@@ -14,7 +14,7 @@ plugins {
 }
 
 group = "org.straycats.birmancat"
-version = "1.0-SNAPSHOT"
+version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_21
 
 repositories {
@@ -108,4 +108,8 @@ tasks.getByName<Test>("test") {
             }
         }
     })
+}
+
+tasks.register("version") {
+    println(version)
 }
